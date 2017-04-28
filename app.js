@@ -11,9 +11,9 @@ GAME RULES:
 
 var scores, roundScores, activePlayer, dice, maxDicePossibility, winCondition;
 var tempDice = 1;
-scores = new Array(0,0);//Scores for both players
-roundScore = 0;
-activePlayer = 0;
+
+NewGame();
+
 dice = 0;
 maxDicePossibility = 6;
 winCondition = 10; //Sets the objective score needed to win the game
@@ -39,17 +39,47 @@ document.querySelector('.dice').style.display = 'none';
 document.querySelector('.btn-roll').addEventListener('click', RollDice);
 
 document.querySelector('.btn-hold').addEventListener('click', function(){
-    // Add current score to global score
-    scores[activePlayer] += roundScore;
-    
-    // Update the UI 
-    document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
-    
-    //Check if player won the game
-    CheckWinCondition();
-    
-      
+    // User can only hold once the current roll has finished    
+    if(canRoll){
+        //Show the hold button to the user
+        // Add current score to global score
+        scores[activePlayer] += roundScore;
+
+        // Update the UI 
+        document.querySelector('#score-' + activePlayer).textContent = scores[activePlayer];
+
+        //Check if player won the game
+        CheckWinCondition();
+    }      
 });
+
+document.querySelector('.btn-new').addEventListener('click', NewGame);
+
+function NewGame(){
+    //Reset all scoring and player values
+    activePlayer = 0;
+    scores = [0,0];
+    roundScore = 0;
+    
+    //Remove dice icon
+    document.querySelector('.dice').style.display = 'none';
+    
+    //Reset UI elements
+    document.getElementById('score-0').textContent = '0';
+    document.getElementById('score-1').textContent = '0';
+    document.getElementById('current-0').textContent = '0';
+    document.getElementById('current-1').textContent = '0';
+    
+
+    document.getElementById('name-0').textContent = 'Player 1';
+    document.getElementById('name-1').textContent = 'Player 2';
+    document.querySelector('.player-0-panel').classList.remove('winner');
+    document.querySelector('.player-1-panel').classList.remove('winner');
+    document.querySelector('.player-0-panel').classList.remove('active');
+    document.querySelector('.player-0-panel').classList.add('active');
+    document.querySelector('.player-1-panel').classList.remove('active');
+
+}
 
 function CheckWinCondition(){
     if(scores[activePlayer] >= winCondition){
