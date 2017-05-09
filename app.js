@@ -16,7 +16,7 @@ NewGame();
 
 dice = 0;
 maxDicePossibility = 6;
-winCondition = 10; //Sets the objective score needed to win the game
+winCondition = document.getElementById("winCondition").value; //Sets the objective score needed to win the game
 
 var canRoll = true;//Bool logs if the diceroll function has yet to complete before the user presses the roll dice (stops rapid clicking to roll) 
 
@@ -38,6 +38,8 @@ document.querySelector('.dice').style.display = 'none';
 //Note we do NOT provide a paramater () after the function as the eventlistener calls the function for us. This is a call back function
 document.querySelector('.btn-roll').addEventListener('click', RollDice);
 
+document.querySelector('.btn-settings').addEventListener('click', DisplaySettings);
+
 document.querySelector('.btn-hold').addEventListener('click', function(){
     // User can only hold once the current roll has finished    
     if(canRoll){
@@ -55,15 +57,24 @@ document.querySelector('.btn-hold').addEventListener('click', function(){
 
 document.querySelector('.btn-new').addEventListener('click', NewGame);
 
+function DisplaySettings() {
+    var settingsDisplay = document.getElementById('settings-panel');
+    settingsDisplay.style.display === 'none' ? settingsDisplay.style.display = 'block' : settingsDisplay.style.display = 'none';
+}
+
 function NewGame(){
     //Reset all scoring and player values
     activePlayer = 0;
     scores = [0,0];
     roundScore = 0;
-    
+    canRoll = true;
     //Remove dice icon
     document.querySelector('.dice').style.display = 'none';
     
+    //Set Variables
+    document.getElementById("itrLoopRate").value = 70;
+    document.getElementById("winCondition").value = 10;
+    document.getElementById("maxLoops").value = 6;
     //Reset UI elements
     document.getElementById('score-0').textContent = '0';
     document.getElementById('score-1').textContent = '0';
@@ -87,6 +98,7 @@ function CheckWinCondition(){
         document.querySelector('.player-' + activePlayer + '-panel').classList.add('winner');
         document.querySelector('.player-' + activePlayer + '-panel').classList.toggle('active');
         document.querySelector('.dice').style.display = 'none';
+        canRoll = false;
     } else {
         SetActivePlayer();
     }
@@ -127,9 +139,11 @@ function RollDice(){
 
         tempDice = 1;
         var itrLoops = 0; //records the current number of setInterval loops
-        var itrMaxLoops = Math.ceil(Math.random() * maxDicePossibility); //Set the target number of loops for the SetInterval method
-
-        var itrLoopRate = 70; //in milliSeconds
+        var maxLoops = document.getElementById("maxLoops").value;
+        var itrMaxLoops = Math.ceil(Math.random() * maxLoops); //Set the target number of loops for the SetInterval method
+        
+        var itrLoopRate = document.getElementById("itrLoopRate").value;
+        //var itrLoopRate = 70; //in milliSeconds
 
         /******DECAY ATTEMPT*****
         //var itrDecayRate = 10; //in milliSeconds

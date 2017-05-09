@@ -32,8 +32,24 @@
             <button class="btn-new"><i class="ion-ios-plus-outline"></i>New game</button>
             <button class="btn-roll"><i class="ion-ios-loop"></i>Roll dice</button>
             <button class="btn-hold"><i class="ion-ios-download-outline"></i>Hold</button>
+            <button class="btn-settings" ><i class="ion-ios-settings"></i>Settings</button>
             
             <img src="dice-5.png" alt="Dice" class="dice">
+            <div id="settings-panel" style="display: none">
+                 
+                <div class="labels1">
+                    <label for="winCondition"># Points to win: </label>
+                    <label for="maxLoops">Max # loops: </label>
+                    <label for="itrLoopRate">Iteration Rate (millisec) : </label>
+                </div>
+
+                <div class="inputs1">
+                    <input type="number" value="" name="input1" id="winCondition" min="1" max="1000"/>
+                    <input type="number" value="" name="input2" id="maxLoops" min="1" max="1000"/>
+                    <input type="number" value="" name="input3" id="itrLoopRate" min="1" max="1000" />
+                </div>
+
+            </div>
         </div>
         
         <script src="app.js"></script>
